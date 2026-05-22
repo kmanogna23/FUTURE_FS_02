@@ -70,23 +70,22 @@ This follows a standard full-stack architecture where:
 ---
 
 ## Project Structure
+```bash
 mini-crm/
-│
 ├── frontend/
-│ ├── index.html
-│ ├── style.css
-│ └── script.js
+│   ├── index.html
+│   ├── style.css
+│   └── script.js
 │
 ├── backend/
-│ ├── routes/
-│ ├── db.js
-│ ├── server.js
-│ ├── package.json
-│ └── package-lock.json
+│   ├── routes/
+│   ├── db.js
+│   ├── server.js
+│   ├── package.json
+│   └── package-lock.json
 │
 └── README.md
-
----
+```
 
 ## How to Run
 
