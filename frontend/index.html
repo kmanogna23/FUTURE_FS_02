@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Lead Management System (Mini CRM)</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- SPLIT-SCREEN ADMIN LOGIN PAGE -->
+    <div id="login-page" class="view-page">
+        <div class="login-split-container">
+            <!-- Left Info Panel -->
+            <div class="login-info-panel">
+                <div class="info-branding">LeadFlow Platform</div>
+                <h1>Client Lead Management System<br><span>(Mini CRM)</span></h1>
+                <p>An enterprise-grade workflow console engineered to capture, monitor, and accelerate your business conversion pipeline cleanly.</p>
+                
+                <div class="feature-highlights">
+                    <div class="feat-item">
+                        <span class="feat-icon">📊</span>
+                        <div>
+                            <strong>Real-time KPI Tracking</strong>
+                            <p>Monitor your total active, contacted, and converted sales leads instantly from a centralized core matrix dashboard.</p>
+                        </div>
+                    </div>
+                    <div class="feat-item">
+                        <span class="feat-icon">📝</span>
+                        <div>
+                            <strong>Dynamic Interaction Logs</strong>
+                            <p>Append custom field updates and internal phone communication notes directly into continuous client storage files.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Login Form Panel with Password Revealer -->
+            <div class="login-form-panel">
+                <div class="auth-card">
+                    <h2>Admin Login</h2>
+                    <p>Access your dashboard with your credentials</p>
+                    
+                    <form id="login-form">
+                        <div class="form-group">
+                            <label for="login-email">Email</label>
+                            <input type="email" id="login-email" required placeholder="admin@crm.com" value="admin@crm.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="login-pass">Password</label>
+                            <div class="password-input-wrapper">
+                                <input type="password" id="login-pass" required placeholder="••••••••" value="admin123">
+                                <button type="button" id="password-toggle-btn" class="password-toggle" title="Toggle password visibility">👁️</button>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Login to Dashboard</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP LAYOUT (With Sidebar and Self-Contained Content Views) -->
+    <div id="app-layout" class="view-page hidden">
+        <div class="app-body-wrapper">
+            <!-- Sidebar Navigation -->
+            <nav class="sidebar">
+                <div class="sidebar-brand">LeadFlow</div>
+                <ul class="nav-menu">
+                    <li class="nav-item active" onclick="switchPage('dashboard-section', this)">
+                        <span class="nav-icon">📊</span> Dashboard
+                    </li>
+                    <li class="nav-item" onclick="switchPage('add-lead-section', this)">
+                        <span class="nav-icon">➕</span> Add Lead
+                    </li>
+                    <li class="nav-item" onclick="switchPage('view-leads-section', this)">
+                        <span class="nav-icon">📋</span> View Leads
+                    </li>
+                    <li class="nav-item" onclick="switchPage('notes-archive-section', this)">
+                        <span class="nav-icon">📝</span> Notes Log
+                    </li>
+                    <li class="nav-item" onclick="switchPage('settings-section', this)">
+                        <span class="nav-icon">⚙️</span> Settings
+                    </li>
+                </ul>
+                <div class="sidebar-footer">
+                    <button class="btn btn-logout" onclick="handleLogout()">Logout</button>
+                </div>
+            </nav>
+
+            <!-- Main Content Canvas Area -->
+            <main class="main-content">
+                <div class="content-view-scroller">
+                    
+                    <!-- DASHBOARD PAGE -->
+                    <section id="dashboard-section" class="content-section">
+                        <header class="section-header">
+                            <h1>Dashboard Overview</h1>
+                            <p>Real-time analytics and tracking status</p>
+                        </header>
+
+                        <div class="stats-grid">
+                            <div class="stat-card total">
+                                <div class="stat-info">
+                                    <span class="stat-label">Total Leads</span>
+                                    <span class="stat-value" id="stat-total">0</span>
+                                </div>
+                                <div class="stat-icon">👥</div>
+                            </div>
+                            <div class="stat-card new">
+                                <div class="stat-info">
+                                    <span class="stat-label">New Leads</span>
+                                    <span class="stat-value" id="stat-new">0</span>
+                                </div>
+                                <div class="stat-icon">✨</div>
+                            </div>
+                            <div class="stat-card contacted">
+                                <div class="stat-info">
+                                    <span class="stat-label">Contacted Leads</span>
+                                    <span class="stat-value" id="stat-contacted">0</span>
+                                </div>
+                                <div class="stat-icon">📞</div>
+                            </div>
+                            <div class="stat-card converted">
+                                <div class="stat-info">
+                                    <span class="stat-label">Converted Leads</span>
+                                    <span class="stat-value" id="stat-converted">0</span>
+                                </div>
+                                <div class="stat-icon">🏆</div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- ADD/EDIT LEAD PAGE -->
+                    <section id="add-lead-section" class="content-section hidden">
+                        <header class="section-header">
+                            <h1 id="form-title">Add New Lead</h1>
+                            <p>Manually insert client specifications into the management records</p>
+                        </header>
+
+                        <div class="form-container">
+                            <form id="lead-form">
+                                <input type="hidden" id="lead-id">
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="lead-name">Name</label>
+                                        <input type="text" id="lead-name" required placeholder="e.g. Ravi">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="lead-email">Email</label>
+                                        <input type="email" id="lead-email" required placeholder="e.g. ravi@gmail.com">
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="lead-phone">Phone</label>
+                                        <input type="tel" id="lead-phone" required placeholder="e.g. 9876543210">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="lead-source">Source</label>
+                                        <select id="lead-source">
+                                            <!-- Built dynamically by JS -->
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="lead-status">Status</label>
+                                    <select id="lead-status">
+                                        <option value="New">New</option>
+                                        <option value="Contacted">Contacted</option>
+                                        <option value="Converted">Converted</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="lead-notes">Add Notes</label>
+                                    <textarea id="lead-notes" rows="4" placeholder="Called client on Monday. Interested in premium plan. Follow-up next week..."></textarea>
+                                </div>
+
+                                <div class="form-actions">
+                                    <button type="button" class="btn btn-secondary" onclick="resetLeadForm()">Clear Form</button>
+                                    <button type="submit" class="btn btn-primary" id="save-btn">Save Lead Data</button>
+                                </div>
+                            </form>
+                        </div>
+                    </section>
+
+                    <!-- VIEW LEADS PAGE -->
+                    <section id="view-leads-section" class="content-section hidden">
+                        <header class="section-header">
+                            <h1>View Leads Matrix</h1>
+                            <p>Track statuses, inspect communication notes, or alter data entries</p>
+                        </header>
+
+                        <div class="table-card">
+                            <div class="table-toolbar">
+                                <input type="text" id="table-search" placeholder="🔍 Search name, email, or source..." onkeyup="searchLeads()">
+                            </div>
+                            <div class="table-responsive">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Phone</th>
+                                            <th>Source</th>
+                                            <th>Status (Click to Switch)</th>
+                                            <th>Saved Notes</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="leads-data-target">
+                                        <!-- Dynamic rows build here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- NOTES HISTORY LOG ARCHIVE -->
+                    <section id="notes-archive-section" class="content-section hidden">
+                        <header class="section-header">
+                            <h1>Global Interaction Notes</h1>
+                            <p>A quick-reference feed of all individual client updates and logs</p>
+                        </header>
+
+                        <div class="table-card">
+                            <div class="table-toolbar">
+                                <input type="text" id="notes-search" placeholder="🔍 Search through interactions..." onkeyup="searchNotes()">
+                            </div>
+                            <div class="notes-feed-container" id="notes-log-target">
+                                <!-- Dynamic notes card feed maps here -->
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SYSTEM CONFIGURATION SETTINGS -->
+                    <section id="settings-section" class="content-section hidden">
+                        <header class="section-header">
+                            <h1>CRM Custom Settings</h1>
+                            <p>Adjust variables and update authentication values</p>
+                        </header>
+
+                        <div class="settings-grid">
+                            <div class="form-container">
+                                <h2>Manage Business Lead Sources</h2>
+                                <p style="color: var(--muted-neutral); font-size: 13px; margin-bottom: 15px;">Add channels to customize your dashboard intake forms.</p>
+                                
+                                <form id="add-source-form" style="display:flex; gap:10px; margin-bottom: 20px;">
+                                    <input type="text" id="new-source-input" placeholder="e.g., Google Ads" required style="flex:1; padding:10px; border:1px solid var(--border-clr); border-radius:8px;">
+                                    <button type="submit" class="btn btn-primary">+ Add</button>
+                                </form>
+
+                                <ul class="settings-list" id="source-list-target">
+                                    <!-- Sources lists here -->
+                                </ul>
+                            </div>
+
+                            <div class="form-container" style="margin-top:24px;">
+                                <h2>Update Admin Account Password</h2>
+                                <form id="change-pass-form" style="margin-top:15px;">
+                                    <div class="form-group">
+                                        <label>New Secure Password</label>
+                                        <input type="password" id="settings-new-pass" required placeholder="Enter new password">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Save Profile Password</button>
+                                </form>
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+
+                <!-- MAIN WORKSPACE WORKFLOW FOOTER -->
+                <footer class="workspace-footer">
+                    <div>Client Lead Management System (Mini CRM) • Workspace Console</div>
+                    <div>&copy; 2026 Admin Dashboard Panel</div>
+                </footer>
+            </main>
+
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
