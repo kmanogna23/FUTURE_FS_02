@@ -6,7 +6,9 @@ Client Lead Management System (Mini CRM) is a full-stack web application designe
 This project simulates a real-world CRM system used in businesses to improve customer relationship management, sales tracking, and follow-up efficiency. It demonstrates full-stack development concepts including frontend UI design, backend API development, and database integration.
 
 ---
-
+## 🚀 Live Demo
+👉 https://your-crm-name.netlify.app
+---
 ## Objective
 The main objective of this project is to build a simple yet functional CRM system that:
 - Stores and manages client lead information
